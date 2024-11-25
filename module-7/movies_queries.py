@@ -1,4 +1,4 @@
-
+#Ean Masoner Module 7.2 Assignment
 import mysql.connector
 from mysql.connector import errorcode
 config = {
