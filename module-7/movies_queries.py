@@ -1,6 +1,7 @@
-#Ean Masoner Module 7.2 Assignment
 import mysql.connector
-from mysql.connector import errorcode
+from mysql import connector
+from mysql.connector import errorcode, connection
+
 config = {
     "user": "root",
     "password": "dragonslayed1A2!",
@@ -8,7 +9,6 @@ config = {
     "database": "movies",
     "raise_on_warnings": True
 }
-
 
 import mysql.connector
 
