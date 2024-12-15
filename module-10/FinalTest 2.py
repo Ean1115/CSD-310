@@ -6,11 +6,12 @@ from mysql.connector import errorcode
 # MySQL connection configuration
 config = {
     'user': 'root',
-    'password': '#Conner1311995', # Replace with your password, as this is not it.
+    'password': 'dragonslayed1A2!',  # Replace with your password, as this is not it.
     'host': 'localhost',  # Replace with your host if not localhost
 }
 
 database_name = "LASTTEST"
+
 
 # Function to create the database
 def create_database(cursor):
@@ -23,6 +24,7 @@ def create_database(cursor):
         else:
             print(f"Failed to create database: {err}")
             exit(1)
+
 
 # SQL schema for table creation
 sql_schema = [
@@ -102,22 +104,10 @@ sql_schema = [
 # Adding the Foreign Keys
 foreign_key_constraints = [
     """
-    ALTER TABLE Inventory
-    ADD FOREIGN KEY (ResponsibleEmployeeID) REFERENCES Employee(EmployeeID);
-    """,
-    """
-    ALTER TABLE Sales
-    ADD FOREIGN KEY (WineID) REFERENCES Wine(WineID),
-    ADD FOREIGN KEY (DistributorID) REFERENCES Distributor(DistributorID);
-    """,
-    """
     ALTER TABLE Wine
     ADD FOREIGN KEY (GrapeVarietyID) REFERENCES GrapeVariety(GrapeVarietyID);
-    """,
     """
-    ALTER TABLE Department
-    ADD FOREIGN KEY (HeadEmployeeID) REFERENCES Employee(EmployeeID);
-    """,
+   ,
     """
     ALTER TABLE Employee
     ADD FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID);
@@ -215,19 +205,29 @@ try:
     # Execute the schema (tables and foreign keys)
     for statement in sql_schema:
         cursor.execute(statement)
-    
+
     for fk in foreign_key_constraints:
         cursor.execute(fk, multi=True)
 
     # Insert data into the tables
-    cursor.executemany("INSERT INTO Employee (EmployeeID, FirstName, LastName, Role, DepartmentID, WorkHours) VALUES (%s, %s, %s, %s, %s, %s);", employees)
-    cursor.executemany("INSERT INTO Department (DepartmentID, DepartmentName, HeadEmployeeID) VALUES (%s, %s, %s);", departments)
+    cursor.executemany(
+        "INSERT INTO Employee (EmployeeID, FirstName, LastName, Role, DepartmentID, WorkHours) VALUES (%s, %s, %s, %s, %s, %s);",
+        employees)
+    cursor.executemany("INSERT INTO Department (DepartmentID, DepartmentName, HeadEmployeeID) VALUES (%s, %s, %s);",
+                       departments)
     cursor.executemany("INSERT INTO GrapeVariety (GrapeVarietyID, VarietyName) VALUES (%s, %s);", grape_varieties)
     cursor.executemany("INSERT INTO Wine (WineID, WineType, GrapeVarietyID) VALUES (%s, %s, %s);", wines)
-    cursor.executemany("INSERT INTO Supplier (SupplierID, SupplierName, DeliveryPerformance) VALUES (%s, %s, %s);", suppliers)
-    cursor.executemany("INSERT INTO Inventory (InventoryID, ItemType, ItemName, Quantity, ResponsibleEmployeeID) VALUES (%s, %s, %s, %s, %s);", inventory)
-    cursor.executemany("INSERT INTO Distributor (DistributorID, DistributorName, ContactInformation) VALUES (%s, %s, %s);", distributors)
-    cursor.executemany("INSERT INTO Sales (SalesID, WineID, DistributorID, SaleDate, QuantitySold, SaleAmount) VALUES (%s, %s, %s, %s, %s, %s);", sales)
+    cursor.executemany("INSERT INTO Supplier (SupplierID, SupplierName, DeliveryPerformance) VALUES (%s, %s, %s);",
+                       suppliers)
+    cursor.executemany(
+        "INSERT INTO Inventory (InventoryID, ItemType, ItemName, Quantity, ResponsibleEmployeeID) VALUES (%s, %s, %s, %s, %s);",
+        inventory)
+    cursor.executemany(
+        "INSERT INTO Distributor (DistributorID, DistributorName, ContactInformation) VALUES (%s, %s, %s);",
+        distributors)
+    cursor.executemany(
+        "INSERT INTO Sales (SalesID, WineID, DistributorID, SaleDate, QuantitySold, SaleAmount) VALUES (%s, %s, %s, %s, %s, %s);",
+        sales)
 
     connection.commit()
     print("Database, tables, foreign keys, and data inserted successfully.")
@@ -246,7 +246,7 @@ try:
     for table in tables:
         table_name = table[0]
         print(f"\nTable: {table_name}")
-        
+
         # Fetch all rows from the current table
         cursor.execute(f"SELECT * FROM {table_name};")
         rows = cursor.fetchall()
